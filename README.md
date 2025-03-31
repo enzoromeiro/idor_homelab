@@ -63,6 +63,24 @@ A aplicação que usei neste exemplo, foi a OWASP Mutillidae II
 
 Na tela de login coloquei as credenciais de uma conta já criada previamente, e ativei o modo de interceptação do Burp Suite. Com o modo ativado, após eu apertar em "login", o Burp me mostra a requisição HTTP antes de ser enviada, mas neste caso é preciso interceptar a resposta antes de chegar no navegador, pois é nela que recebemos o id de sessão.
 
+![login](https://github.com/user-attachments/assets/bfdede55-dcd3-4358-84b1-4b1fb66f686a)
+
+![response](https://github.com/user-attachments/assets/a8011ece-15d2-4f36-b9b5-db23154f49e5)
+
+![id de sessão](https://github.com/user-attachments/assets/daa52a95-3dce-4605-abe0-c3b3bea73417)
+
+Como pode ser visto na imagem acima, o id atribuído no cookie de sessão pro meu usuário é "25", provavelmente o sistema tem um Weak Session ID (id fraco e previsível) o que me faz pensar que os IDs de sessão são criados de forma sequencial (1,2,3...).
+Seguindo esse ponto de vista, provavelmente o id do admin do sistema seria "1", o primeiro usuário portanto. O correto seria gerar os IDs de sessão aleatoriamente e garantir que eles expirem para que não fique previsível.  
+
+![id admin](https://github.com/user-attachments/assets/8d8daf2f-a175-4a33-a9ce-1c4223542fd5)
+
+Após alterarmos o id para "1", dou um forward na resposta, permitindo que chegue até meu navegador. 
+E voltando para a aplicação novamente, estaremos logados na conta do admin
+
+
+
+
+
 
 
   

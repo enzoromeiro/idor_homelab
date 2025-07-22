@@ -1,12 +1,10 @@
-# IDOR & Session Hijacking Lab
+# IDOR Lab
 
 ## 🃏 Descrição  
-Este projeto explora a vulnerabilidade **IDOR (Insecure Direct Object Reference)**, a identificação de **Weak Session ID** e a realização de **Session Hijacking** em um ambiente de laboratório seguro.
+Este projeto explora a vulnerabilidade **IDOR (Insecure Direct Object Reference)**, em um ambiente de laboratório seguro.
 
 ## Objetivo  
-- Compreender e explorar falhas relacionadas a **IDOR**.  
-- Identificar **Weak Session ID** e analisar seus riscos.  
-- Realizar **Session Hijacking** para entender os impactos dessa vulnerabilidade.  
+- Compreender e explorar falhas relacionadas a **IDOR**.    
 
 ## Ferramentas Utilizadas  
 - Burp Suite  
@@ -17,9 +15,7 @@ Este projeto explora a vulnerabilidade **IDOR (Insecure Direct Object Reference)
 ## Passos do Projeto  
 1. Configuração do ambiente de teste
 2. Interceptação com Burp Suite  
-3. Identificação de **Weak Session ID**
-4. Exploração da vulnerabilidade **IDOR**
-5. Execução de **Session Hijacking**
+3. Exploração da vulnerabilidade **IDOR**
 
 ## 💻 Evidências  
 
@@ -67,19 +63,17 @@ Na tela de login coloquei as credenciais de uma conta já criada previamente, e 
 
 ![response](https://github.com/user-attachments/assets/a8011ece-15d2-4f36-b9b5-db23154f49e5)
 
-### PASSO 3 e PASSO 4 :
+### PASSO 3:
 
 ![id de sessão](https://github.com/user-attachments/assets/daa52a95-3dce-4605-abe0-c3b3bea73417)
 
-Como pode ser visto na imagem acima, o id atribuído no cookie de sessão para o meu usuário é "25", provavelmente o sistema tem um Weak Session ID (id fraco e previsível) o que me faz pensar que os IDs de sessão são criados de forma sequencial (1,2,3...).
-Seguindo esse ponto de vista, provavelmente o id do admin do sistema seria "1", o primeiro usuário portanto. O correto seria gerar os IDs de sessão aleatoriamente e garantir que eles expirem para que não fique previsível.  
+Como pode ser visto na imagem acima, o id do usuário foi atribuído e setado diretamente no cookie de sessão, o meu usuário é "25". Não é uma boa prática setar o uid no cookie, mas o maior erro está em não verificar no backend a relação das requisições vindas daquele uid com a sessão autenticada. Por isso que alterando o uid, um atacante consegue acessar a conta de outro usuário, sem precisar se autenticar (bypass authentication) via IDOR.
+Seguindo esse ponto de vista, provavelmente o id do admin do sistema seria "1", o primeiro usuário portanto.  
 
 ![id admin](https://github.com/user-attachments/assets/8d8daf2f-a175-4a33-a9ce-1c4223542fd5)
 
-### PASSO 5 :
-
-Após alterarmos o id para "1", dou um forward na resposta, permitindo que chegue até meu navegador. 
-E voltando para a aplicação novamente, estaremos logados na conta do admin.
+Após alterarmos o uid para "1", dou um forward na resposta, permitindo que chegue até meu navegador. 
+E voltando para a aplicação novamente, temos acesso a conta do admin.
 
 ![admin session hijacking](https://github.com/user-attachments/assets/3521725e-3c19-4e5f-a4b0-9f8f428e3c9f)
 
@@ -109,7 +103,7 @@ Agora para interceptar a resposta, irei fazer o login novamente e trocarei o id 
 
 ![Interceptando resposta e alterando id](https://github.com/user-attachments/assets/df9c9fb2-2cab-4b70-90db-fb6b65eef94e)
 
-E após dar o "forward" e voltar para a aplicação, estaremos tendo acesso ao objeto (carrinho) de outro usuário.
+E após dar o "forward" e voltar para a aplicação, foi recuperado com sucesso o objeto (carrinho) de outro usuário.
 
 ![carrinho após IDOR](https://github.com/user-attachments/assets/e087470a-54c4-4a41-8598-91559b1f2499)
 

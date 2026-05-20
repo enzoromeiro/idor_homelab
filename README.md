@@ -1,7 +1,7 @@
 # IDOR Lab
 
 ## 🃏 Descrição  
-Este projeto explora a vulnerabilidade **IDOR (Insecure Direct Object Reference)**, em um ambiente de laboratório seguro.
+Este projeto consiste em explorar a vulnerabilidade **IDOR (Insecure Direct Object Reference)**, em um ambiente de laboratório seguro.
 
 ## Objetivo  
 - Compreender e explorar falhas relacionadas a **IDOR**.    

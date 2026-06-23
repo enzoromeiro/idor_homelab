@@ -67,8 +67,9 @@ Na tela de login coloquei as credenciais de uma conta já criada previamente, e 
 
 ![id de sessão](https://github.com/user-attachments/assets/daa52a95-3dce-4605-abe0-c3b3bea73417)
 
-Como pode ser visto na imagem acima, o id do usuário no banco de dados foi atribuído e setado diretamente no cookie de sessão, o meu usuário é "25". Não é uma boa prática setar o uid no cookie, mas o maior erro está em não verificar no backend a relação das requisições vindas daquele uid com a sessão autenticada, por isso que alterando o uid, um atacante consegue acessar a conta de outro usuário.
-Seguindo esse ponto de vista, provavelmente o uid do admin do sistema seria "1", o primeiro usuário portanto.  
+Como pode ser visto na imagem acima, o id do usuário no banco de dados foi atribuído e setado diretamente no cookie de sessão, o meu usuário é "25". Não é uma boa prática setar um uid sequencial no cookie, mas o maior erro está em não verificar no backend a relação das requisições vindas daquele uid com a sessão autenticada, por isso que alterando o uid, um atacante consegue acessar a conta de outro usuário.
+Seguindo esse ponto de vista, provavelmente o uid do admin do sistema seria "1", o primeiro usuário portanto.
+Uma solução eficaz além da validação no backend: Ao invés de identificar um objeto ou usuário com números sequenciais (25,26,27...), o sistema gera um UUID (Universally Unique Identifier), que é um código aleatório de 128 bits, impossível de ser adivinhado ou previsto. É recomendado utilizar Token JWT assinado no cookie, assim mesmo se o atacante alterar algo dentro do payload do token, a assinatura não vai bater. 
 
 ![id admin](https://github.com/user-attachments/assets/8d8daf2f-a175-4a33-a9ce-1c4223542fd5)
 

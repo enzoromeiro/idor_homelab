@@ -69,6 +69,7 @@ Na tela de login coloquei as credenciais de uma conta já criada previamente, e 
 
 Como pode ser visto na imagem acima, o id do usuário no banco de dados foi atribuído e setado diretamente no cookie de sessão, o meu usuário é "25". Não é uma boa prática setar um uid sequencial no cookie, mas o maior erro está em não verificar no backend a relação das requisições vindas daquele uid com a sessão autenticada, por isso que alterando o uid, um atacante consegue acessar a conta de outro usuário.
 Seguindo esse ponto de vista, provavelmente o uid do admin do sistema seria "1", o primeiro usuário portanto.
+
 Estratégia para solucionar: Ao invés de identificar um objeto ou usuário com números sequenciais (25,26,27...), usar UUID (Universally Unique Identifier), que é um código aleatório de 128 bits, impossível de ser adivinhado ou previsto. É recomendado utilizar Token JWT assinado no cookie, assim mesmo se o atacante alterar algum id dentro do payload do token, a assinatura não vai bater. Além disso, nenhuma medida substitui a validação de controle de acesso no backend. O sistema deve sempre verificar se o usuário autenticado realmente possui autorização para interagir com o recurso solicitado. Na prática, isso é feito extraindo o ID do usuário diretamente do payload do Token JWT (que a integridade é garantida pela assinatura) e comparar com o ID do proprietário do objeto no banco de dados antes de retornar qualquer informação. 
 
 ![id admin](https://github.com/user-attachments/assets/8d8daf2f-a175-4a33-a9ce-1c4223542fd5)
